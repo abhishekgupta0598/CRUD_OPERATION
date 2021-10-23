@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/abhishekgupta0598/CRUD_OPERATION/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/abhishekgupta0598/CRUD_OPERATION/static/js/main.d12aa93a.chunk.js",
+    "main.js.map": "/abhishekgupta0598/CRUD_OPERATION/static/js/main.d12aa93a.chunk.js.map",
+    "runtime-main.js": "/abhishekgupta0598/CRUD_OPERATION/static/js/runtime-main.45c36302.js",
+    "runtime-main.js.map": "/abhishekgupta0598/CRUD_OPERATION/static/js/runtime-main.45c36302.js.map",
+    "static/css/2.b0300f7a.chunk.css": "/abhishekgupta0598/CRUD_OPERATION/static/css/2.b0300f7a.chunk.css",
+    "static/js/2.6a3780a8.chunk.js": "/abhishekgupta0598/CRUD_OPERATION/static/js/2.6a3780a8.chunk.js",
+    "static/js/2.6a3780a8.chunk.js.map": "/abhishekgupta0598/CRUD_OPERATION/static/js/2.6a3780a8.chunk.js.map",
+    "static/js/3.02ac9236.chunk.js": "/abhishekgupta0598/CRUD_OPERATION/static/js/3.02ac9236.chunk.js",
+    "static/js/3.02ac9236.chunk.js.map": "/abhishekgupta0598/CRUD_OPERATION/static/js/3.02ac9236.chunk.js.map",
+    "index.html": "/abhishekgupta0598/CRUD_OPERATION/index.html",
+    "static/css/2.b0300f7a.chunk.css.map": "/abhishekgupta0598/CRUD_OPERATION/static/css/2.b0300f7a.chunk.css.map",
+    "static/css/main.6dea0f05.chunk.css.map": "/abhishekgupta0598/CRUD_OPERATION/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.6a3780a8.chunk.js.LICENSE.txt": "/abhishekgupta0598/CRUD_OPERATION/static/js/2.6a3780a8.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.45c36302.js",
+    "static/css/2.b0300f7a.chunk.css",
+    "static/js/2.6a3780a8.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.d12aa93a.chunk.js"
+  ]
+}
