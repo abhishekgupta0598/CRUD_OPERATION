@@ -29,6 +29,7 @@ const styles = (theme) => ({
       paddingBottom: "1%",
       marginRight: "1%",
       marginLeft: "1%",
+      marginTop: "1%",
     },
   },
   left: {
@@ -49,11 +50,15 @@ const styles = (theme) => ({
       paddingRight: "3%",
       paddingTop: "1%",
       paddingBottom: "1%",
+      marginTop: "1%",
     },
   },
   box: {
     marginRight: "2%",
     width: "30%",
+  },
+  bottom: {
+    padding: "1%",
   },
 });
 
@@ -226,7 +231,7 @@ class RetailerList extends Component {
             </div>
           </Paper>
         </div>
-        <Paper elevation={3}>
+        <Paper elevation={3} className={classes.bottom}>
           <div>
             <table>
               <thead>
@@ -235,7 +240,6 @@ class RetailerList extends Component {
                   <th>first_name</th>
                   <th>last_name</th>
                   <th>email</th>
-                  <th>avatar</th>
                 </tr>
               </thead>
               <tbody>
@@ -246,7 +250,6 @@ class RetailerList extends Component {
                       <td>{res.first_name}</td>
                       <td>{res.last_name}</td>
                       <td>{res.email}</td>
-                      <td>{res.avatar}</td>
                       {/* <td>
                         {
                           <Button
