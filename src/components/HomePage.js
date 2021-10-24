@@ -153,12 +153,6 @@ class RetailerList extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <div>
-          <p>
-            <b>Note:</b>There is no Backend So if you refresh the page the data
-            is destroy.
-          </p>
-        </div>
         <Paper className={classes.float} elevation={3}>
           <div>
             <table>
