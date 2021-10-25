@@ -4,7 +4,6 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@mui/material/Paper";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
