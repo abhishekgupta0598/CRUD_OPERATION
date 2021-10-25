@@ -302,7 +302,7 @@ class RetailerList extends Component {
 
                 <Stack spacing={2} sx={{ width: "25%" }}>
                   <Button variant="contained" onClick={this.submitHandler}>
-                    <ArrowUpwardIcon />
+                    submit
                   </Button>
                   <Snackbar
                     open={this.state.open}
