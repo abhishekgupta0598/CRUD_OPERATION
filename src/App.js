@@ -8,7 +8,7 @@ export default class App extends Component {
       <div>
         <Router>
           <Switch>
-            <Route path="/CRUD_OPERATION/" exact component={RetailerList} />
+            <Route path="/" exact component={RetailerList} />
           </Switch>
         </Router>
       </div>
