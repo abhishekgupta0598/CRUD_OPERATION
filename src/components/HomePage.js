@@ -4,6 +4,10 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@mui/material/Paper";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const styles = (theme) => ({
   root: {
@@ -62,6 +66,10 @@ const styles = (theme) => ({
   },
 });
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 class RetailerList extends Component {
   constructor(props) {
     super(props);
@@ -72,6 +80,8 @@ class RetailerList extends Component {
       id: "",
       name: "",
       job: "",
+      open: false,
+      warning: false,
     };
   }
   componentDidMount() {
@@ -108,7 +118,8 @@ class RetailerList extends Component {
           }),
         });
         this.setState({ list2: this.state.list0 });
-        window.alert(`User ${id} Deleted Sucessfully!`);
+        // window.alert(`User ${id} Deleted Sucessfully!`);
+        this.setState({ warning: true });
       })
       .catch((err) => console.log(err));
   };
@@ -145,14 +156,42 @@ class RetailerList extends Component {
           }),
         });
         console.log(this.state.list2);
-        window.alert(`User Added Sucessfully!`);
+        // window.alert(`User Added Sucessfully!`);
+        this.setState({ open: true });
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  editHandler = (index) => {
+    console.log(index);
+    let id = this.state.list2[index].id;
+    console.log(id);
+    let user = this.state.list2.find((res) => {
+      return res.id === id;
+    });
+
+    this.setState({ id: user.id });
+    this.setState({ name: user.name });
+    this.setState({ job: user.job });
+  };
+
   render = () => {
+    const handleClose = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      this.setState({ open: false });
+    };
+
+    const handleWarning = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      this.setState({ warning: false });
+    };
+
     console.log("render called for users");
     console.log(this.state.list);
     const { classes } = this.props;
@@ -163,10 +202,12 @@ class RetailerList extends Component {
             <table>
               <thead>
                 <tr>
-                  <th>id</th>
-                  <th>name</th>
-                  <th>job</th>
-                  <th>createdAt</th>
+                  <th>ID</th>
+                  <th>NAME</th>
+                  <th>JOB</th>
+                  <th>CREATED AT</th>
+                  <th>DELETE</th>
+                  <th>EDIT</th>
                 </tr>
               </thead>
               <tbody>
@@ -179,12 +220,37 @@ class RetailerList extends Component {
                       <td>{res.createdAt}</td>
                       <td>
                         {
+                          <Stack spacing={2} sx={{ width: "70%" }}>
+                            <Button
+                              variant="contained"
+                              onClick={() => this.deleteHandler(index)}
+                            >
+                              delete
+                            </Button>
+                            <Snackbar
+                              open={this.state.warning}
+                              autoHideDuration={4000}
+                              onClose={handleWarning}
+                            >
+                              <Alert
+                                onClose={handleWarning}
+                                severity="warning"
+                                sx={{ width: "100%" }}
+                              >
+                                User Deleted Successfully!
+                              </Alert>
+                            </Snackbar>
+                          </Stack>
+                        }
+                      </td>
+                      <td>
+                        {
                           <Button
                             variant="contained"
                             className={classes.box}
-                            onClick={() => this.deleteHandler(index)}
+                            onClick={() => this.editHandler(index)}
                           >
-                            DELETE
+                            EDIT
                           </Button>
                         }
                       </td>
@@ -198,7 +264,7 @@ class RetailerList extends Component {
         <div>
           <Paper elevation={3} className={classes.left}>
             <div>
-              <h5>Users</h5>
+              <h5>CREATE USERS</h5>
               <form>
                 <div>
                   <label>id : </label>
@@ -224,9 +290,25 @@ class RetailerList extends Component {
                     value={this.state.job}
                   />
                 </div>
-                <Button variant="contained" onClick={this.submitHandler}>
-                  submit
-                </Button>
+
+                <Stack spacing={2} sx={{ width: "25%" }}>
+                  <Button variant="contained" onClick={this.submitHandler}>
+                    <ArrowUpwardIcon />
+                  </Button>
+                  <Snackbar
+                    open={this.state.open}
+                    autoHideDuration={4000}
+                    onClose={handleClose}
+                  >
+                    <Alert
+                      onClose={handleClose}
+                      severity="success"
+                      sx={{ width: "100%" }}
+                    >
+                      User added successfully!
+                    </Alert>
+                  </Snackbar>
+                </Stack>
               </form>
             </div>
           </Paper>
@@ -236,10 +318,10 @@ class RetailerList extends Component {
             <table>
               <thead>
                 <tr>
-                  <th>id</th>
-                  <th>first_name</th>
-                  <th>last_name</th>
-                  <th>email</th>
+                  <th>ID</th>
+                  <th>FIRST NAME</th>
+                  <th>LAST NAME</th>
+                  <th>EMAIL</th>
                 </tr>
               </thead>
               <tbody>
@@ -250,17 +332,6 @@ class RetailerList extends Component {
                       <td>{res.first_name}</td>
                       <td>{res.last_name}</td>
                       <td>{res.email}</td>
-                      {/* <td>
-                        {
-                          <Button
-                            variant="contained"
-                            className={classes.box}
-                            onClick={() => this.deleteHandler(index)}
-                          >
-                            DELETE
-                          </Button>
-                        }
-                      </td> */}
                     </tr>
                   );
                 })}
