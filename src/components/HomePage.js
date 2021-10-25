@@ -12,14 +12,12 @@ import MuiAlert from "@mui/material/Alert";
 const styles = (theme) => ({
   root: {
     width: "100%",
-    padding: "1%",
   },
   float: {
     float: "none",
     width: "100%",
-    marginRight: "1%",
-    paddingLeft: "3%",
-    paddingRight: "3%",
+    paddingLeft: "1%",
+    paddingRight: "1%",
     paddingTop: "1%",
     marginBottom: "1%",
     paddingBottom: "1%",
@@ -39,9 +37,8 @@ const styles = (theme) => ({
   left: {
     float: "none",
     width: "100%",
-    marginRight: "1%",
-    paddingLeft: "3%",
-    paddingRight: "3%",
+    paddingLeft: "1%",
+    paddingRight: "1%",
     paddingTop: "1%",
     marginBottom: "1%",
     paddingBottom: "1%",
@@ -82,6 +79,7 @@ class RetailerList extends Component {
       job: "",
       open: false,
       warning: false,
+      edit: false,
     };
   }
   componentDidMount() {
@@ -118,7 +116,6 @@ class RetailerList extends Component {
           }),
         });
         this.setState({ list2: this.state.list0 });
-        // window.alert(`User ${id} Deleted Sucessfully!`);
         this.setState({ warning: true });
       })
       .catch((err) => console.log(err));
@@ -137,7 +134,12 @@ class RetailerList extends Component {
       })
       .then((res) => {
         console.log(res);
-        console.log(res);
+        let put = this.state.list2.find((data) => {
+          return (
+            (data.id === res.data.id && data.name) === res.data.name &&
+            data.job === res.data.job
+          );
+        });
         let flag = this.state.list0.find((data) => {
           return data.id === res.data.id;
         });
@@ -157,7 +159,14 @@ class RetailerList extends Component {
         });
         console.log(this.state.list2);
         // window.alert(`User Added Sucessfully!`);
-        this.setState({ open: true });
+
+        if (put) {
+          window.alert(
+            `error! The user having id ${res.data.id} is already present`
+          );
+        } else {
+          this.setState({ open: true });
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -171,7 +180,7 @@ class RetailerList extends Component {
     let user = this.state.list2.find((res) => {
       return res.id === id;
     });
-
+    this.setState({ edit: true });
     this.setState({ id: user.id });
     this.setState({ name: user.name });
     this.setState({ job: user.job });
@@ -220,7 +229,7 @@ class RetailerList extends Component {
                       <td>{res.createdAt}</td>
                       <td>
                         {
-                          <Stack spacing={2} sx={{ width: "70%" }}>
+                          <Stack spacing={2} sx={{ width: "55%" }}>
                             <Button
                               variant="contained"
                               onClick={() => this.deleteHandler(index)}
@@ -237,7 +246,7 @@ class RetailerList extends Component {
                                 severity="warning"
                                 sx={{ width: "100%" }}
                               >
-                                User Deleted Successfully!
+                                A user is deleted successfully!
                               </Alert>
                             </Snackbar>
                           </Stack>
@@ -305,7 +314,7 @@ class RetailerList extends Component {
                       severity="success"
                       sx={{ width: "100%" }}
                     >
-                      User added successfully!
+                      This is a success message!
                     </Alert>
                   </Snackbar>
                 </Stack>
