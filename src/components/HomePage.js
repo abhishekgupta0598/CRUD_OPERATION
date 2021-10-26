@@ -4,7 +4,6 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@mui/material/Paper";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
@@ -185,8 +184,8 @@ class LocalUsers extends Component {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>NAME</th>
-                <th>JOB</th>
+                <th>FIRST NAME</th>
+                <th>LAST NAME</th>
                 <th>DELETE</th>
                 <th>EDIT</th>
               </tr>
@@ -200,7 +199,7 @@ class LocalUsers extends Component {
                     <td>{res.job}</td>
                     <td>
                       {
-                        <Stack spacing={2} sx={{ width: "55%" }}>
+                        <Stack spacing={2} sx={{ width: "25%" }}>
                           <IconButton
                             variant="contained"
                             onClick={() => deleteHandler(res.id)}
@@ -287,7 +286,7 @@ class CreateUserDialog extends Component {
               />
             </div>
             <div>
-              <label>Name : </label>
+              <label>First Name : </label>
               <input
                 type="text"
                 onChange={(e) => this.setState({ name: e.target.value })}
@@ -295,7 +294,7 @@ class CreateUserDialog extends Component {
               />
             </div>
             <div>
-              <label>Job : </label>
+              <label>Last Name : </label>
               <input
                 type="text"
                 onChange={(e) => this.setState({ job: e.target.value })}
@@ -380,7 +379,7 @@ class UpdateUserDialog extends Component {
               />
             </div>
             <div>
-              <label>Name : </label>
+              <label>First Name : </label>
               <input
                 type="text"
                 onChange={(e) => this.setState({ name: e.target.value })}
@@ -388,7 +387,7 @@ class UpdateUserDialog extends Component {
               />
             </div>
             <div>
-              <label>Job : </label>
+              <label>Last Name : </label>
               <input
                 type="text"
                 onChange={(e) => this.setState({ job: e.target.value })}
@@ -449,7 +448,7 @@ class RetailerList extends Component {
   };
 
   createUserHandler = (id, name, job) => {
-    const userExists = this.state.users.find((user) => user.id == id);
+    const userExists = this.state.users.find((user) => user.id === id);
     if (userExists) {
       this.addAlert(`Error! The user having id ${id} is already present`);
       return;
@@ -478,7 +477,7 @@ class RetailerList extends Component {
   };
 
   updateUserHandler = (id, name, job) => {
-    const userExists = this.state.users.find((user) => user.id == id);
+    const userExists = this.state.users.find((user) => user.id === id);
     if (!userExists) {
       this.addAlert(`Error! User with id ${id} does not exist.`);
       return;
@@ -490,10 +489,10 @@ class RetailerList extends Component {
         job: job,
       })
       .then((res) => {
-        const user = this.state.users.find((user) => user.id == id);
+        const user = this.state.users.find((user) => user.id === id);
         this.setState({
           users: [
-            ...this.state.users.filter((user) => user.id != id),
+            ...this.state.users.filter((user) => user.id !== id),
             { id, name, job },
           ].sort((a, b) => a.id - b.id),
           showUpdateUserDialog: false,
@@ -520,7 +519,7 @@ class RetailerList extends Component {
 
   deleteAlert = (alert) => {
     this.setState({
-      alerts: [...this.state.alerts.filter((a) => a != alert)],
+      alerts: [...this.state.alerts.filter((a) => a !== alert)],
     });
   };
 
