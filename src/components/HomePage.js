@@ -24,7 +24,7 @@ const styles = (theme) => ({
     width: "100%",
     padding: "1%",
     flex: 1,
-    marginBottom: '20px'
+    marginBottom: "20px",
   },
 
   left: {
@@ -67,44 +67,67 @@ class ReqResUsers extends Component {
       users: [],
       pageNo: 1,
       totalPages: null,
-    }
+    };
   }
   render() {
-    const {classes} = this.props;
-    console.log('page', this.state.pageNo);
-    return <Paper elevation={3} className={classes.bottom}>
-      <h5>Users list from reqres.in</h5>
-      <div style={{display: 'flex', flexDirection: 'column'}}>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>FIRST NAME</th>
-              <th>LAST NAME</th>
-              <th>EMAIL</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.users.map(user => {
-              return (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.first_name}</td>
-                  <td>{user.last_name}</td>
-                  <td>{user.email}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-          <div style={{display: 'flex', flex: 1}} />
-          <IconButton disabled={this.state.pageNo <= 1} onClick={() => this.setPage(this.state.pageNo - 1)}><ArrowLeftIcon /></IconButton>
-          <span>Page {this.state.pageNo}/{this.state.totalPages}</span>
-          <IconButton disabled={!this.state.totalPages || this.state.pageNo >=this.state.totalPages} onClick={() => this.setPage(this.state.pageNo + 1)}><ArrowRightIcon /></IconButton>
+    const { classes } = this.props;
+    console.log("page", this.state.pageNo);
+    return (
+      <Paper elevation={3} className={classes.bottom}>
+        <h5>Users list from reqres.in</h5>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>FIRST NAME</th>
+                <th>LAST NAME</th>
+                <th>EMAIL</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.users.map((user) => {
+                return (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.first_name}</td>
+                    <td>{user.last_name}</td>
+                    <td>{user.email}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ display: "flex", flex: 1 }} />
+            <IconButton
+              disabled={this.state.pageNo <= 1}
+              onClick={() => this.setPage(this.state.pageNo - 1)}
+            >
+              <ArrowLeftIcon />
+            </IconButton>
+            <span>
+              Page {this.state.pageNo}/{this.state.totalPages}
+            </span>
+            <IconButton
+              disabled={
+                !this.state.totalPages ||
+                this.state.pageNo >= this.state.totalPages
+              }
+              onClick={() => this.setPage(this.state.pageNo + 1)}
+            >
+              <ArrowRightIcon />
+            </IconButton>
+          </div>
         </div>
-      </div>
-    </Paper>;
+      </Paper>
+    );
   }
 
   componentDidMount() {
@@ -112,7 +135,7 @@ class ReqResUsers extends Component {
   }
 
   setPage(pageNo) {
-    this.setState({pageNo: pageNo});
+    this.setState({ pageNo: pageNo });
     this.loadUsers(pageNo);
   }
 
@@ -146,88 +169,87 @@ class LocalUsers extends Component {
   }
 
   render() {
-    console.log('local users render', this.props.users);
-    const {classes, editHandler, deleteHandler, users} = this.props;
+    console.log("local users render", this.props.users);
+    const { classes, editHandler, deleteHandler, users } = this.props;
     const handleWarning = (event, reason) => {
       if (reason === "clickaway") {
         return;
       }
       this.setState({ warning: false });
     };
-    return <Paper className={classes.localUsers} elevation={3}>
-      <h5>Users list from local storage</h5>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>JOB</th>
-              <th>CREATED AT</th>
-              <th>DELETE</th>
-              <th>EDIT</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(res => {
-              return (
-                <tr key={res.id}>
-                  <td>{res.id}</td>
-                  <td>{res.name}</td>
-                  <td>{res.job}</td>
-                  <td>{res.createdAt}</td>
-                  <td>
-                    {
-                      <Stack spacing={2} sx={{ width: "55%" }}>
+    return (
+      <Paper className={classes.localUsers} elevation={3}>
+        <h5>Users list from local storage</h5>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>JOB</th>
+                <th>DELETE</th>
+                <th>EDIT</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((res) => {
+                return (
+                  <tr key={res.id}>
+                    <td>{res.id}</td>
+                    <td>{res.name}</td>
+                    <td>{res.job}</td>
+                    <td>
+                      {
+                        <Stack spacing={2} sx={{ width: "55%" }}>
+                          <IconButton
+                            variant="contained"
+                            onClick={() => deleteHandler(res.id)}
+                          >
+                            <Delete />
+                          </IconButton>
+                          <Snackbar
+                            open={this.state.warning}
+                            autoHideDuration={4000}
+                            onClose={handleWarning}
+                          >
+                            <Alert
+                              onClose={handleWarning}
+                              severity="warning"
+                              sx={{ width: "100%" }}
+                            >
+                              A user is deleted successfully!
+                            </Alert>
+                          </Snackbar>
+                        </Stack>
+                      }
+                    </td>
+                    <td>
+                      {
                         <IconButton
                           variant="contained"
-                          onClick={() => deleteHandler(res.id)}
+                          className={classes.box}
+                          onClick={() => editHandler(res.id)}
                         >
-                          <Delete />
+                          <Edit />
                         </IconButton>
-                        <Snackbar
-                          open={this.state.warning}
-                          autoHideDuration={4000}
-                          onClose={handleWarning}
-                        >
-                          <Alert
-                            onClose={handleWarning}
-                            severity="warning"
-                            sx={{ width: "100%" }}
-                          >
-                            A user is deleted successfully!
-                          </Alert>
-                        </Snackbar>
-                      </Stack>
-                    }
-                  </td>
-                  <td>
-                    {
-                      <IconButton
-                        variant="contained"
-                        className={classes.box}
-                        onClick={() => editHandler(res.id)}
-                      >
-                        <Edit />
-                      </IconButton>
-                    }
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </Paper>;
+                      }
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </Paper>
+    );
   }
 }
 
 class CreateUserDialog extends Component {
-
   constructor(props) {
     super(props);
     if (this.props.editedUser) {
-      const user  = this.props.editedUser;
+      const user = this.props.editedUser;
       this.state = {
         id: user.id,
         name: user.name,
@@ -235,15 +257,15 @@ class CreateUserDialog extends Component {
       };
     } else {
       this.state = {
-        id: '',
-        name: '',
-        job: ''
+        id: "",
+        name: "",
+        job: "",
       };
     }
   }
 
   render() {
-    const {submitHandler, classes, open, cancelHandler} = this.props;
+    const { submitHandler, classes, open, cancelHandler } = this.props;
     // const user = this.state.
     const handleClose = (event, reason) => {
       if (reason === "clickaway") {
@@ -251,70 +273,82 @@ class CreateUserDialog extends Component {
       }
       this.setState({ open: false });
     };
-    return <Dialog open={open}>
-      <div style={{padding: '15px', width: '240px'}}>
-        <h5>Create Users</h5>
-        <form>
-          <div>
-            <label>Id : </label>
-            <input
-              type="text"
-              onChange={(e) => this.setState({ id: e.target.value })}
-              value={this.state.id}
-            />
-          </div>
-          <div>
-            <label>Name : </label>
-            <input
-              type="text"
-              onChange={(e) => this.setState({ name: e.target.value })}
-              value={this.state.name}
-            />
-          </div>
-          <div>
-            <label>Job : </label>
-            <input
-              type="text"
-              onChange={(e) => this.setState({ job: e.target.value })}
-              value={this.state.job}
-            />
-          </div>
-          <div style={{display: 'flex', flexDirecton: 'row'}}>
-            <span style={{flex: 1}} />
-            <Button color="secondary" variant="contained" onClick={() => cancelHandler()}>
-              CANCEL
-            </Button>
-            <Button disabled={!this.state.id || !this.state.name || !this.state.job} variant="contained" onClick={() => submitHandler(this.state.id, this.state.name, this.state.job)} style={{marginLeft: '10px'}}>
-              CREATE
-            </Button>
-          </div>
-
-          <Stack spacing={2} sx={{ width: "25%" }}>
-            <Snackbar
-              open={this.state.open}
-              autoHideDuration={4000}
-              onClose={handleClose}
-            >
-              <Alert
-                onClose={handleClose}
-                severity="success"
-                sx={{ width: "100%" }}
+    return (
+      <Dialog open={open}>
+        <div style={{ padding: "15px", width: "240px" }}>
+          <h5>Create Users</h5>
+          <form>
+            <div>
+              <label>Id : </label>
+              <input
+                type="text"
+                onChange={(e) => this.setState({ id: e.target.value })}
+                value={this.state.id}
+              />
+            </div>
+            <div>
+              <label>Name : </label>
+              <input
+                type="text"
+                onChange={(e) => this.setState({ name: e.target.value })}
+                value={this.state.name}
+              />
+            </div>
+            <div>
+              <label>Job : </label>
+              <input
+                type="text"
+                onChange={(e) => this.setState({ job: e.target.value })}
+                value={this.state.job}
+              />
+            </div>
+            <div style={{ display: "flex", flexDirecton: "row" }}>
+              <span style={{ flex: 1 }} />
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={() => cancelHandler()}
               >
-                User has been created successfully!
-              </Alert>
-            </Snackbar>
-          </Stack>
-        </form>
-      </div>
-    </Dialog>;
+                CANCEL
+              </Button>
+              <Button
+                disabled={!this.state.id || !this.state.name || !this.state.job}
+                variant="contained"
+                onClick={() =>
+                  submitHandler(this.state.id, this.state.name, this.state.job)
+                }
+                style={{ marginLeft: "10px" }}
+              >
+                CREATE
+              </Button>
+            </div>
+
+            <Stack spacing={2} sx={{ width: "25%" }}>
+              <Snackbar
+                open={this.state.open}
+                autoHideDuration={4000}
+                onClose={handleClose}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="success"
+                  sx={{ width: "100%" }}
+                >
+                  User has been created successfully!
+                </Alert>
+              </Snackbar>
+            </Stack>
+          </form>
+        </div>
+      </Dialog>
+    );
   }
 }
 
 class UpdateUserDialog extends Component {
-
   constructor(props) {
     super(props);
-    const user  = this.props.editedUser;
+    const user = this.props.editedUser;
     this.state = {
       id: user.id,
       name: user.name,
@@ -323,7 +357,7 @@ class UpdateUserDialog extends Component {
   }
 
   render() {
-    const {submitHandler, classes, open, cancelHandler} = this.props;
+    const { submitHandler, classes, open, cancelHandler } = this.props;
     // const user = this.state.
     const handleClose = (event, reason) => {
       if (reason === "clickaway") {
@@ -331,47 +365,60 @@ class UpdateUserDialog extends Component {
       }
       this.cancelHandler();
     };
-    return <Dialog open={open}>
-      <div style={{padding: '15px', width: '240px'}}>
-        <h5>Update User</h5>
-        <form>
-          <div>
-            <label>Id : </label>
-            <input
-              type="text"
-              disabled={true}
-              onChange={(e) => this.setState({ id: e.target.value })}
-              value={this.state.id}
-            />
-          </div>
-          <div>
-            <label>Name : </label>
-            <input
-              type="text"
-              onChange={(e) => this.setState({ name: e.target.value })}
-              value={this.state.name}
-            />
-          </div>
-          <div>
-            <label>Job : </label>
-            <input
-              type="text"
-              onChange={(e) => this.setState({ job: e.target.value })}
-              value={this.state.job}
-            />
-          </div>
-          <div style={{display: 'flex', flexDirecton: 'row'}}>
-            <span style={{flex: 1}} />
-            <Button color="secondary" variant="contained" onClick={() => cancelHandler()}>
-              CANCEL
-            </Button>
-            <Button disabled={!this.state.id || !this.state.name || !this.state.job} variant="contained" onClick={() => submitHandler(this.state.id, this.state.name, this.state.job)} style={{marginLeft: '10px'}}>
-              UPDATE
-            </Button>
-          </div>
-        </form>
-      </div>
-    </Dialog>;
+    return (
+      <Dialog open={open}>
+        <div style={{ padding: "15px", width: "240px" }}>
+          <h5>Update User</h5>
+          <form>
+            <div>
+              <label>Id : </label>
+              <input
+                type="text"
+                disabled={true}
+                onChange={(e) => this.setState({ id: e.target.value })}
+                value={this.state.id}
+              />
+            </div>
+            <div>
+              <label>Name : </label>
+              <input
+                type="text"
+                onChange={(e) => this.setState({ name: e.target.value })}
+                value={this.state.name}
+              />
+            </div>
+            <div>
+              <label>Job : </label>
+              <input
+                type="text"
+                onChange={(e) => this.setState({ job: e.target.value })}
+                value={this.state.job}
+              />
+            </div>
+            <div style={{ display: "flex", flexDirecton: "row" }}>
+              <span style={{ flex: 1 }} />
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={() => cancelHandler()}
+              >
+                CANCEL
+              </Button>
+              <Button
+                disabled={!this.state.id || !this.state.name || !this.state.job}
+                variant="contained"
+                onClick={() =>
+                  submitHandler(this.state.id, this.state.name, this.state.job)
+                }
+                style={{ marginLeft: "10px" }}
+              >
+                UPDATE
+              </Button>
+            </div>
+          </form>
+        </div>
+      </Dialog>
+    );
   }
 }
 
@@ -392,59 +439,72 @@ class RetailerList extends Component {
       .delete(`https://reqres.in/api/users/${id}`)
       .then(() => {
         this.setState({
-          users: this.state.users.filter(data => data.id !== id),
+          users: this.state.users.filter((data) => data.id !== id),
         });
-        this.addAlert(`User with id ${id} deleted at reqres.in and local storage.`);
+        this.addAlert(
+          `User with id ${id} deleted at reqres.in and local storage.`
+        );
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   createUserHandler = (id, name, job) => {
-    const userExists = this.state.users.find(user => user.id == id);
+    const userExists = this.state.users.find((user) => user.id == id);
     if (userExists) {
       this.addAlert(`Error! The user having id ${id} is already present`);
       return;
     }
-    axios.post("https://reqres.in/api/users", {
-      id: id,
-      name: name,
-      job: job,
-    })
-    .then(() => {
-      this.setState({
-        users: [...this.state.users, {id, name, job}].sort((a, b) => a.id - b.id),
-        showCreateUserDialog: false,
+    axios
+      .post("https://reqres.in/api/users", {
+        id: id,
+        name: name,
+        job: job,
+      })
+      .then(() => {
+        this.setState({
+          users: [...this.state.users, { id, name, job }].sort(
+            (a, b) => a.id - b.id
+          ),
+          showCreateUserDialog: false,
+        });
+        this.addAlert(
+          `User ${name} created with id ${id} at reqres.in and local storage.`
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        this.addAlert(error);
       });
-      this.addAlert(`User ${name} created with id ${id} at reqres.in and local storage.`);
-    })
-    .catch((error) => {
-      console.log(error);
-      this.addAlert(error);
-    });
   };
 
   updateUserHandler = (id, name, job) => {
-    const userExists = this.state.users.find(user => user.id == id);
+    const userExists = this.state.users.find((user) => user.id == id);
     if (!userExists) {
       this.addAlert(`Error! User with id ${id} does not exist.`);
       return;
     }
-    axios.post("https://reqres.in/api/users", {
-      id: id,
-      name: name,
-      job: job,
-    })
-    .then((res) => {
-      const user = this.state.users.find(user => user.id == id);
-      this.setState({
-        users: [...this.state.users.filter(user => user.id != id), {id, name, job}].sort((a, b) => a.id - b.id),
-        showUpdateUserDialog: false,
+    axios
+      .post("https://reqres.in/api/users", {
+        id: id,
+        name: name,
+        job: job,
+      })
+      .then((res) => {
+        const user = this.state.users.find((user) => user.id == id);
+        this.setState({
+          users: [
+            ...this.state.users.filter((user) => user.id != id),
+            { id, name, job },
+          ].sort((a, b) => a.id - b.id),
+          showUpdateUserDialog: false,
+        });
+        this.addAlert(
+          `User ${name} with id ${id} updated at reqres.in and local storage.`
+        );
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      this.addAlert(`User ${name} with id ${id} updated at reqres.in and local storage.`);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
   };
 
   editHandler = (id) => {
@@ -453,60 +513,94 @@ class RetailerList extends Component {
       return res.id === id;
     });
     this.setState({
-      editedUser: {...user},
+      editedUser: { ...user },
       showUpdateUserDialog: true,
     });
   };
 
   deleteAlert = (alert) => {
     this.setState({
-      alerts: [...this.state.alerts.filter(a => a != alert)],
+      alerts: [...this.state.alerts.filter((a) => a != alert)],
     });
-  }
+  };
 
   addAlert = (alert) => {
     this.setState({
       alerts: [...this.state.alerts, alert],
-    })
-  }
+    });
+  };
 
   render = () => {
     console.log("render called for users");
     console.log(this.state.users);
-    console.log('users', this.state.users);
+    console.log("users", this.state.users);
     const { classes } = this.props;
-    return <>
-      <div className={classes.root}>
-      <h3>User Operations Demo App</h3>
-        <div style={{display: 'flex', flexDirection: 'row', marginBottom: '-70px', padding: '10px'}}>
-          <span style={{flex: 1}} />
-          <Fab color="primary" variant="extended" onClick={() => this.setState({showCreateUserDialog: true})} style={{marginTop: '10px'}}>
-            <AddIcon /> Add User
-          </Fab>
-        </div>
-        <LocalUsers users={this.state.users} classes={classes} editHandler={this.editHandler} deleteHandler={this.deleteHandler} />
-        <ReqResUsers classes={classes} />
-      </div>
-      <CreateUserDialog cancelHandler={() => this.setState({showCreateUserDialog: false})} submitHandler={this.createUserHandler} classes={classes} open={this.state.showCreateUserDialog} />
-      {this.state.showUpdateUserDialog ? <UpdateUserDialog cancelHandler={() => this.setState({showUpdateUserDialog: false})} submitHandler={this.updateUserHandler} classes={classes} open={true} key={this.state.editedUser.id} editedUser={this.state.editedUser}/> : null}
-
-      {this.state.alerts.map(alert => 
-        <Stack spacing={2} sx={{ width: "25%" }}>
-        <Snackbar
-          open={true}
-          autoHideDuration={4000}
-          onClose={() => this.deleteAlert(alert)}
-        >
-          <Alert
-            // onClose={handleClose}
-            severity="success"
-            sx={{ width: "100%" }}
+    return (
+      <>
+        <div className={classes.root}>
+          <h3>User Operations Demo App</h3>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginBottom: "-70px",
+              padding: "10px",
+            }}
           >
-            {alert}
-          </Alert>
-        </Snackbar>
-      </Stack>)}
-    </>;
+            <span style={{ flex: 1 }} />
+            <Fab
+              color="primary"
+              variant="extended"
+              onClick={() => this.setState({ showCreateUserDialog: true })}
+              style={{ marginTop: "10px" }}
+            >
+              <AddIcon /> Add User
+            </Fab>
+          </div>
+          <LocalUsers
+            users={this.state.users}
+            classes={classes}
+            editHandler={this.editHandler}
+            deleteHandler={this.deleteHandler}
+          />
+          <ReqResUsers classes={classes} />
+        </div>
+        <CreateUserDialog
+          cancelHandler={() => this.setState({ showCreateUserDialog: false })}
+          submitHandler={this.createUserHandler}
+          classes={classes}
+          open={this.state.showCreateUserDialog}
+        />
+        {this.state.showUpdateUserDialog ? (
+          <UpdateUserDialog
+            cancelHandler={() => this.setState({ showUpdateUserDialog: false })}
+            submitHandler={this.updateUserHandler}
+            classes={classes}
+            open={true}
+            key={this.state.editedUser.id}
+            editedUser={this.state.editedUser}
+          />
+        ) : null}
+
+        {this.state.alerts.map((alert) => (
+          <Stack spacing={2} sx={{ width: "25%" }}>
+            <Snackbar
+              open={true}
+              autoHideDuration={4000}
+              onClose={() => this.deleteAlert(alert)}
+            >
+              <Alert
+                // onClose={handleClose}
+                severity="success"
+                sx={{ width: "100%" }}
+              >
+                {alert}
+              </Alert>
+            </Snackbar>
+          </Stack>
+        ))}
+      </>
+    );
   };
 }
 
